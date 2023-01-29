@@ -47,16 +47,15 @@ public class Student {
 
 	
 	@ToString.Exclude
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-			CascadeType.DETACH }, fetch = FetchType.EAGER)
-	@JoinTable(name = "student_courses", joinColumns = @JoinColumn(name = "student_email"), inverseJoinColumns = @JoinColumn(name = "courses_id"))
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+	@JoinTable(name = "student_courses", joinColumns = @JoinColumn(name = "student_email"), inverseJoinColumns = @JoinColumn(name = "course_id"))
 	 Set<Course> courses = new HashSet<>();
 	
 	
-	
-	
-
-	// constructors
+	public void addCourse(Course c) {
+			courses.add(c);
+			c.getStudents().add(this);
+		}
 
 
 	
