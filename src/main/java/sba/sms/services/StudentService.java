@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import sba.sms.dao.StudentI;
 import sba.sms.models.Course;
@@ -26,10 +27,8 @@ public class StudentService implements StudentI {
 		try {
 			tx = session.beginTransaction();
 			
-			listStud = session.createQuery("from student", Student.class).getResultList();  // HQL Query to add to the list from the db
-			
-			tx.commit(); // added this commit because it was required in the README, from my understanding,
-						 //      because this is just creating a query, it isn't actually needed.
+			Query<Student> query = session.createQuery("from Student ", Student.class);
+			listStud = query.getResultList();
 			
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
@@ -45,6 +44,7 @@ public class StudentService implements StudentI {
 
 	@Override
 	public void createStudent(Student student) { // need to make this persist student to database
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = null;
 
